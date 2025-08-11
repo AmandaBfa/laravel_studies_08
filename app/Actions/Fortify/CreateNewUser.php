@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
+use function Laravel\Prompts\confirm;
+
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
@@ -19,17 +21,32 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
-        Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique(User::class),
+        Validator::make(
+            $input,
+            [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => [
+                    'required',
+                    'string',
+                    'email',
+                    'max:255',
+                    Rule::unique(User::class),
+                ],
+                'password' => ['required', 'string', 'min:6', 'confirmed'],
             ],
-            'password' => $this->passwordRules(),
-        ])->validate();
+            // error messages
+            [
+                'name.required' => 'O campo nome é obrigatório.',
+                'name.string' => 'O campo nome deve ser um texto.',
+                'name.max' => 'O campo nome não pode ter mais do que :max caracteres.',
+                'email.required' => 'O campo email é obrigatório.',
+                'email.email' => 'O campo email deve ser um de email válido.',
+                'email.unique' => 'Este email informado já está em uso.',
+                'password.required' => 'O campo senha é obrigatório.',
+                'password.min' => 'A senha deve ter no mínimo :min caracteres.',
+                'password.confirmed' => 'O campo senha não confere com a confirmação de senha.',
+            ]
+        )->validate();
 
         return User::create([
             'name' => $input['name'],
