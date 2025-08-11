@@ -7,7 +7,12 @@
             </div>
             <div class="col d-flex justify-content-end align-items-center gap-5 p-3">
                 <span>Usuário: <strong class="text-info">[usuário]</strong></span>
-                <a href="#" class="btn btn-primary">Logout</a>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Logout</button>
+
+                </form>
+
             </div>
         </div>
     </div>
