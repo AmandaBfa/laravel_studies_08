@@ -3,7 +3,7 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-5 card p-5">
-                <form action="{{ route('password.email') }}" method="post">
+                <form action="{{ route('password.email') }}" method="post" novalidate>
                     @csrf
                     <p class="display-6 text-center">RECUPERAR A SENHA</p>
                     <div class="mb-3">
@@ -22,7 +22,7 @@
                 </form>
 
                 {{-- email sent --}}
-                @if (session('status'))
+                @if (session('status') || $errors->any())
                     <div class="text-center mt-5">
                         <p>Um email foi enviado para o seu endereço de email com as instruções para recuperar a sua senha.
                         </p>
@@ -30,7 +30,7 @@
                     </div>
                 @endif
 
-                {{-- errors --}}
+                {{-- errors
                 @if ($errors->any())
                     <div class="alert alert-danger mt-4">
                         <ul class="m-0">
@@ -39,7 +39,7 @@
                             @endforeach
                         </ul>
                     </div>
-                @endif
+                @endif --}}
 
             </div>
         </div>
