@@ -18,5 +18,6 @@ return [
     'throttled' => 'Please wait before retrying.',
     'token' => 'This password reset token is invalid.',
     'user' => "We can't find a user with that email address.",
+    // nesse user pode ter outra mensagem mais generica, para nao expor que o email que nao existe no sistema
 
 ];
